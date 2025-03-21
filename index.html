@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RomanTex: Decoupling 3D-aware Rotary Positional Embedded Multi-Attention Network for Texture Synthesis</title>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag("js", new Date());
+
+      gtag("config", "G-PYVRSFMDRL");
+    </script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="icon" href="./static/images/favicon.svg" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"
+    ></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./staticcss/bulma.min.css" />
+    <link rel="stylesheet" href="./staticcss/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./staticcss/fontawesome.all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="./staticcss/index.css" />
+    <link rel="icon" href="./staticimages/test3.png" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script defer src="./staticjs/fontawesome.all.min.js"></script>
+    <script src="./staticjs/bulma-slider.min.js"></script>
+    <script src="./staticjs/index.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"
+    ></script>
+
+    <style>
+      body {
+        margin: auto;
+        font-family: Arial, sans-serif;
+      }
+
+      nav {
+        position: auto;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: ghostwhite;
+        z-index: 100;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      nav ul {
+        padding: 0;
+        margin: auto;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul li {
+        margin: auto;
+      }
+
+      nav ul li a {
+        display: block;
+        padding: 5px;
+        /*      color: #fff;*/
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      nav ul li a:hover {
+        background-color: #555;
+      }
+
+      /* iframe 容器 */
+      .iframe-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* 提示器 */
+      .tooltip {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        font-size: 12px;
+        white-space: nowrap;
+        transform: translate(-50%, -50%);
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0.2s, opacity 0.2s;
+      }
+
+      /* 鼠标悬停在 iframe 容器时隐藏提示器 */
+      .iframe-container:hover .tooltip {
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      .title {
+        font-size: 41px;
+      }
+
+      /*  teaser font-size  */
+      .teaserTitle {
+        font-size: 76px;
+      }
+
+      .subTeaserTitle {
+        font-size: 15px;
+      }
+
+      .carousel-indicators {
+        bottom: -26px;
+      }
+
+      .carousel-control.left,
+      .carousel-control.right {
+        background-image: none !important;
+        filter: none !important;
+        width: 20px;
+      }
+
+      .columns {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .column {
+        flex: 1;
+        min-width: 150px;
+      }
+
+      .carousel-indicators ol {
+        width: 100%;
+      }
+
+      .carousel-indicators li {
+        height: 3px !important;
+        border-radius: 0px !important;
+        width: 25%;
+      }
+
+      .carousel-indicators li {
+        height: 3px !important;
+        border-radius: 0px !important;
+        width: 25%;
+      }
+
+      .gallery {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+      }
+
+      .gallery-viewer {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex: 1;
+      }
+
+      .gallery-viewer model-viewer {
+        width: 250px;
+        height: 250px;
+      }
+
+      .section h2.title.is-1 {
+        font-size: 2.5rem;
+      }
+
+      .content.has-text-justified p {
+        font-size: 1.5rem;
+      }
+
+      .hero.is-light {
+        background-color: white;
+      }
+
+      .gallery-button {
+        background-color: rgba(128, 128, 128, 0.5);
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        color: white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      .gallery-button:hover {
+        background-color: rgba(128, 128, 128, 0.8);
+        transform: scale(1.1);
+      }
+
+      .gallery-button:active {
+        transform: scale(0.9);
+      }
+
+      #prevButton::before {
+        content: "←";
+      }
+
+      #nextButton::before {
+        content: "→";
+      }
+
+    </style>
+    <script>
+      // Function to shuffle an array
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+  
+      // Function to load GLB files into the gallery
+      async function loadGallery() {
+        const galleryViewer = document.getElementById('galleryViewer');
+        let glbFiles = [];
+        try {
+          const response = await fetch('./glb_files.txt');
+          const text = await response.text();
+          glbFiles = text.split('\n').filter(line => line.trim() !== ''); // Split by newline and remove empty lines
+          glbFiles = shuffleArray(glbFiles); // Shuffle the array
+        } catch (error) {
+          console.error('Error loading GLB files:', error);
+          return;
+        }
+        let currentIndex = 0;
+  
+        function showModels(startIndex) {
+          galleryViewer.innerHTML = '';
+          for (let i = 0; i < 3; i++) {
+            const modelContainer = document.createElement('div');
+            modelContainer.style.textAlign = 'center'; // Center align the content
+  
+            const modelViewer = document.createElement('model-viewer');
+            const glbFile = glbFiles[(startIndex + i) % glbFiles.length];
+            modelViewer.setAttribute('src', glbFile);
+            modelViewer.setAttribute("rotation-per-second", "60deg");
+            modelViewer.setAttribute('environment-image', 'neutral');
+            modelViewer.setAttribute('camera-target', '0m 0m 0m');
+            modelViewer.setAttribute('orientation', '0deg 0deg 0deg');
+            modelViewer.setAttribute('shadow-intensity', '1');
+            modelViewer.setAttribute('ar', 'true');
+            modelViewer.setAttribute('auto-rotate', '');
+            modelViewer.setAttribute('camera-controls', '');
+  
+            // const fileNameDisplay = document.createElement('div');
+            // fileNameDisplay.textContent = glbFile; // Display the GLB file name
+            // fileNameDisplay.style.marginTop = '10px'; // Add some space between the model and the text
+  
+            modelContainer.appendChild(modelViewer);
+            // modelContainer.appendChild(fileNameDisplay);
+            galleryViewer.appendChild(modelContainer);
+          }
+        }
+  
+        document.getElementById('prevButton').addEventListener('click', () => {
+          currentIndex = (currentIndex - 3 + glbFiles.length) % glbFiles.length;
+          showModels(currentIndex);
+        });
+  
+        document.getElementById('nextButton').addEventListener('click', () => {
+          currentIndex = (currentIndex + 3) % glbFiles.length;
+          showModels(currentIndex);
+        });
+  
+        showModels(currentIndex);
+      }
+  
+    </script>
+  </head>
+
+  <body>
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-0 publication-title">
+                RomanTex: Decoupling 3D-aware Rotary Positional <br />
+                Embedded Multi-Attention Network for Texture Synthesis
+              </h1>
+
+              <div class="is-size-3 publication-authors">
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Yifei Feng</a><sup>1&ast;</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Mingxin Yang</a><sup>1&ast;</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Shuhui Yang</a><sup>1&ast;&dagger;</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Sheng Zhang</a><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Jiaao Yu</a><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Zibo Zhao</a><sup>2</sup>,
+                </span>
+                </br>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Yuhong Liu</a><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Jie Jiang</a><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a class="is-size-3 publication-authors" href="#">Chunchao Guo</a><sup>1&ddagger;</sup>,
+                </span>
+  
+              </div>
+              <div class="is-size-3 publication-authors">
+                <span class="author-block"><sup>1</sup>Tencent Hunyuan </span>
+                <span class="author-block"><sup>2</sup>ShanghaiTech University </span>
+
+                <span class="eql-cntrb"><small><br><sup>&ast;</sup> Equal Contribution</small></span>
+                <span class="eql-cntrb"><small><br><sup>&dagger;</sup> Project Leader</small></span>
+                <span class="eql-cntrb"><small><br><sup>&ddagger;</sup> Corresponding Author</small></span>
+              </div>
+
+              <!-- <div class="is-size-2 publication-authors">
+                <span class="author-block">Anonymous Submission</span>
+              </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.1 Banner -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <img src="./images/teaser.jpg" width="100%" />
+        </div>
+      </div>
+    </section>
+
+    <br /><br />
+    <section class="section">
+      <div class="container is-max-desktop is-centered">
+        <h2 class="title is-1 has-text-centered" style="text-align: center;">Gallery</h2>
+        <div class="loading-text has-text-centered">
+          <font color="grey">It may take a while to load textured meshes.</u></font>
+        </div>
+        <div class="gallery">
+          <button id="prevButton" class="gallery-button"></button>
+          <div class="gallery-viewer" id="galleryViewer"></div>
+          <button id="nextButton" class="gallery-button"></button>
+        </div>
+      </div>
+    </section>
+
+    <br /><br />
+
+    <!-- 1.2 Abstract -->
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-1">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Painting textures for existing geometries is a critical yet labor-intensive process in 3D asset generation. Recent advancements
+                in text-to-image (T2I) models have led to significant progress in texture generation. Most existing research
+                approaches this task by first generating images in 2D spaces using image diffusion models, followed by a texture baking
+                process to achieve UV texture. However, these methods often struggle to produce high-quality textures due to inconsisten
+                cies among the generated multi-view images, resulting in seams and ghosting artifacts. In contrast, 3D-based texture
+                synthesis methods aim to address these inconsistencies, but they often neglect 2D diffusion model priors, making them
+                challenging to apply to real-world objects To overcome these limitations, we propose RomanTex, a multiview-based texture
+                generation framework that integrates a multi-attention network with an underlying 3D representation, facilitated
+                by our novel 3D-aware Rotary Positional Embedding. Additionally, we incorporate a decoupling characteristic in 
+                the multi-attention block to enhance the models robustness in image-to-texture task, enabling semantically-correct back-view synthesis.
+                Furthermore, we introduce a geometry related Classifier-Free Guidance (CFG) mechanism to further improve the 
+                alignment with both geometries and images. Quantitative and qualitative evaluations, along with comprehensive user studies,
+                demonstrate that our method achieves state-of-the-art results in texture quality and consistency.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br />
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <!-- <div class="column is-four-fifths"> -->
+          <div class="column">
+            <h2 class="title is-1" style="text-align: center;">Method</h2>
+            <div class="column">
+              <img src="./images/pipeline.jpg" />
+            </div>
+            <div class="content has-text-justified">
+              <p>
+                Overview of the proposed texture synthesis framework. Projected geometry conditions and image conditions 
+                are incorporated via noise concatenation and reference attention injection, respectively. To enhance 
+                multi-view consistency, a multi-view attention block with 3D-aware RoPE is integrated using canonical coordinate maps-based queries.
+              </p>
+  
+            </div>
+  
+  
+          </div>
+        </div>
+      </div>
+    </section> 
+
+    <br /><br />
+
+    <!-- 2.1 Text-to-Texture -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <h2 class="title is-1" style="text-align: center;">Comparison with <span
+              style="color: #4FACFA;">text-to-texture</span> methods </h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.2 Text-to-Texture Results -->
+    <section class="hero teaser">
+      <div class="container has-6-cols-desktop" id="texture-results">
+        <!-- Dynamic content will be inserted here -->
+      </div>
+    </section>
+
+    <!-- 将按钮移到内容下方，并增加间距 -->
+    <div class="columns is-mobile is-centered" style="margin-top: 20px;">
+      <button class="btn btn-primary" type="button" id="toggle-more-text">
+        Show More
+      </button>
+    </div>
+
+    <script>
+      loadGallery();
+      const items = [
+        {
+          description: "A circus barrel, colored in bright simple colors with an image of a clown painted on it.",
+          id: "barrel"
+        },
+        {
+          description: "A realistic laptop with a background picture of green fields and blue sky on its screen.",
+          id: "laptop"
+        },
+        {
+          description: "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;A white tea cup and coaster with blue intricate drawings.&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;",
+          id: "tea"
+        },
+        {
+          description: "A painted greek sculpture, blonde hair, fair skin, red lipstick, bright blue eyes.",
+          id: "sculpture"
+        },
+        {
+          description: "A brown take-away cup with white drawings of houses trees and windmills with a black top and a white bottom.",
+          id: "cup"
+        }
+      ];
+  
+      const techniques = [
+        { name: "Text2Tex", suffix: "1" },
+        { name: "SyncMVD", suffix: "2" },
+        { name: "TexPainter", suffix: "3" },
+        { name: "Ours", suffix: "4" }
+      ];
+
+      const container = document.getElementById("texture-results");
+  
+      // Dynamically generate content
+      items.forEach((item, index) => {
+        const section = document.createElement("div");
+        section.className = "columns is-mobile is-centered collapsible-text";
+        if (index >= 3) {
+          section.classList.add("collapsed"); // Hide extra content by default
+        }
+  
+        const rows = document.createElement("div");
+        rows.className = "rows is-mobile is-centered";
+  
+        const row = document.createElement("div");
+        row.className = "row is-mobile is-centered";
+  
+        const columns = document.createElement("div");
+        columns.className = "columns is-mobile is-centered";
+  
+        techniques.forEach(tech => {
+          const column = document.createElement("div");
+          column.className = "column is-mobile is-centered";
+  
+          const rowInner = document.createElement("div");
+          rowInner.className = "row is-mobile is-centered";
+  
+          if (index === 0) {
+            const heading = document.createElement("h4");
+            heading.align = "center";
+            heading.textContent = tech.name;
+            rowInner.appendChild(heading);
+          }
+  
+          const modelViewer = document.createElement("model-viewer");
+          modelViewer.style.height = "200px";
+          modelViewer.style.width = "200px";
+          modelViewer.setAttribute("rotation-per-second", "60deg");
+          modelViewer.setAttribute("id", "t1");
+          modelViewer.setAttribute("src", `comparison/text/${item.id}/${tech.suffix}.glb`);
+          modelViewer.setAttribute("environment-image", "neutral");
+          modelViewer.setAttribute("camera-target", "0m 0m 0m");
+          modelViewer.setAttribute("orientation", "0deg 0deg 0deg");
+          modelViewer.setAttribute("shadow-intensity", "1");
+          modelViewer.setAttribute("ar", "true");
+          modelViewer.setAttribute("auto-rotate", "");
+          modelViewer.setAttribute("camera-controls", "");
+  
+          rowInner.appendChild(modelViewer);
+          column.appendChild(rowInner);
+          columns.appendChild(column);
+        });
+  
+        row.appendChild(columns);
+        rows.appendChild(row);
+        section.appendChild(rows);
+  
+        const description = document.createElement("h5");
+        description.innerHTML = `<i><font color="grey">${item.description}</font></i>`;
+        section.appendChild(description);
+  
+        container.appendChild(section);
+      });
+  
+      // Show more/less functionality
+      const toggleButton = document.getElementById("toggle-more-text");
+      const collapsibleSections = document.querySelectorAll(".collapsible-text.collapsed");
+  
+      toggleButton.addEventListener("click", () => {
+        const isExpanded = toggleButton.textContent === "Show Less";
+  
+        collapsibleSections.forEach(section => {
+          if (isExpanded) {
+            section.style.maxHeight = section.scrollHeight + "px"; // Set to current height
+            setTimeout(() => {
+              section.style.maxHeight = "0";
+              section.style.opacity = "0";
+            }, 10); // Delay to trigger transition
+          } else {
+            section.style.maxHeight = section.scrollHeight + "px";
+            section.style.opacity = "1";
+          }
+        });
+  
+        toggleButton.textContent = isExpanded ? "Show More" : "Show Less";
+      });
+    </script>
+
+    <style>
+      .collapsible-text {
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+
+      .collapsible-text:not(.collapsed) {
+        max-height: 1000px;
+        /* A large enough value to ensure full expansion */
+        opacity: 1;
+      }
+    </style>
+    <br /><br />
+
+      <!-- 3.1 Image-to-Texture -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <h2 class="title is-1" style="text-align: center;">Comparison with <span
+              style="color: #4FACFA;">image-to-texture</span> methods </h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.2 Image-to-Texture Results -->
+    <section class="hero" id="teaser">
+      <div class="container is-max-desktop" id="image-results">
+        <!-- Dynamic content will be inserted here -->
+      </div>
+      <div class="columns is-mobile is-centered" style="margin-top: 20px;">
+        <button class="btn btn-primary" type="button" id="toggle-more-image">
+          Show More
+        </button>
+      </div>
+    </section>
+
+    <script>
+      const imageItems = [
+        {
+          id: "16",
+          ref: "comparison/image/16/image_prompt.png",
+          description: "Reference"
+        },
+        {
+          id: "53",
+          ref: "comparison/image/53/image_prompt.png",
+          description: "Reference"
+        },
+        {
+          id: "0",
+          ref: "comparison/image/0/image_prompt.png",
+          description: "Reference"
+        },
+        {
+          id: "120",
+          ref: "comparison/image/120/image_prompt.png",
+          description: "Reference"
+        },
+        {
+          id: "157",
+          ref: "comparison/image/157/image_prompt.png",
+          description: "Reference"
+        }
+      ];
+
+      const imageTechniques = [
+        { name: "SyncMVD-IPA", suffix: "1" },
+        { name: "TexGen", suffix: "2" },
+        { name: "HY3D-2.0", suffix: "3" },
+        { name: "Ours", suffix: "4" }
+      ];
+
+      const imageContainer = document.getElementById("image-results");
+
+      // Dynamically generate content
+      imageItems.forEach((item, index) => {
+        const section = document.createElement("div");
+        section.className = "columns is-mobile is-centered collapsible-image";
+        if (index >= 3) {
+          section.classList.add("collapsed"); // Hide extra content by default
+        }
+
+        const rows = document.createElement("div");
+        rows.className = "rows is-mobile is-centered";
+
+        const row = document.createElement("div");
+        row.className = "row is-mobile is-centered";
+
+        const columns = document.createElement("div");
+        columns.className = "columns is-mobile is-centered";
+
+        // Reference image
+        const refColumn = document.createElement("div");
+        refColumn.className = "column is-mobile is-centered";
+        refColumn.align = "center";
+
+        const refImage = document.createElement("img");
+        refImage.style.height = "200px";
+        refImage.style.width = "200px";
+        refImage.src = item.ref;
+
+        const refHeading = document.createElement("h4");
+        refHeading.textContent = item.description;
+
+        if (index === 0) {
+          refColumn.appendChild(refHeading);
+        }
+        refColumn.appendChild(refImage);
+        columns.appendChild(refColumn);
+
+        // Techniques
+        imageTechniques.forEach(tech => {
+          const column = document.createElement("div");
+          column.className = "column is-mobile is-centered";
+
+          const rowInner = document.createElement("div");
+          rowInner.className = "row is-mobile is-centered";
+
+          if (index === 0) {
+            const heading = document.createElement("h4");
+            heading.align = "center";
+            heading.textContent = tech.name;
+            rowInner.appendChild(heading);
+          }
+
+          const modelViewer = document.createElement("model-viewer");
+          modelViewer.style.height = "200px";
+          modelViewer.style.width = "200px";
+          modelViewer.setAttribute("rotation-per-second", "60deg");
+          modelViewer.setAttribute("id", "t1");
+          modelViewer.setAttribute("src", `comparison/image/${item.id}/${tech.suffix}.glb`);
+          modelViewer.setAttribute("environment-image", "neutral");
+          modelViewer.setAttribute("camera-target", "0m 0m 0m");
+          modelViewer.setAttribute("orientation", "0deg 0deg 0deg");
+          modelViewer.setAttribute("shadow-intensity", "1");
+          modelViewer.setAttribute("ar", "true");
+          modelViewer.setAttribute("auto-rotate", "");
+          modelViewer.setAttribute("camera-controls", "");
+
+          rowInner.appendChild(modelViewer);
+          column.appendChild(rowInner);
+          columns.appendChild(column);
+        });
+
+        row.appendChild(columns);
+        rows.appendChild(row);
+        section.appendChild(rows);
+
+        imageContainer.appendChild(section);
+      });
+
+      // Show more/less functionality
+      const toggleButtonImage = document.getElementById("toggle-more-image");
+      const collapsibleSectionsImage = document.querySelectorAll(".collapsible-image.collapsed");
+
+      toggleButtonImage.addEventListener("click", () => {
+        const isExpanded = toggleButtonImage.textContent === "Show Less";
+
+        collapsibleSectionsImage.forEach(section => {
+          if (isExpanded) {
+            section.style.maxHeight = section.scrollHeight + "px"; // Set to current height
+            setTimeout(() => {
+              section.style.maxHeight = "0";
+              section.style.opacity = "0";
+            }, 10); // Delay to trigger transition
+          } else {
+            section.style.maxHeight = section.scrollHeight + "px";
+            section.style.opacity = "1";
+          }
+        });
+
+        toggleButtonImage.textContent = isExpanded ? "Show More" : "Show Less";
+      });
+    </script>
+
+    <style>
+      .collapsible-image {
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+
+      .collapsible-image:not(.collapsed) {
+        max-height: 1000px;
+        /* A large enough value to ensure full expansion */
+        opacity: 1;
+      }
+    </style>
+
+    <br /><br />
+
+    <script type="text/javascript">
+      $(function () {
+        $("#collapseOne").collapse("hide");
+      });
+      $(function () {
+        $("#collapseTwo").collapse("hide");
+      });
+    </script>
+
+    <br /><br />
+    <footer class="footer">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <div class="content">
+              <p>
+                Website template has been borrowed and modified from
+                <a href="https://github.com/ZebinHe/MaterialMVP/">MaterialMVP</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>
