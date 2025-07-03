@@ -13,4 +13,5 @@
 
 ## 🔥 News
 
+- Jun 26, 2025: RomanTex is accepted by ICCV 2025.
 - Mar 26, 2025: [arXiv](https://arxiv.org/abs/2503.19011) preprint is now available.
